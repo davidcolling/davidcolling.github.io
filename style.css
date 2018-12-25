@@ -1,10 +1,10 @@
 /*begin:fonts*/
-*{
+* {
     text-decoration:none;
-    color:#000000;
+    color:#bbbbbb;
     background-color:#dddddd;
 }
-.big{
+.big {
     font-family:Futura;
     text-transform:uppercase;
     font-size:15px;
@@ -12,7 +12,7 @@
     line-height:25px;
     font-weight:100;
 }
-.little{
+.little {
     font-family:Futura;
     text-transform:uppercase;
     font-size:11px;
@@ -22,7 +22,7 @@
 /*end:fonts*/
 
 /*begin:layout*/
-#title{
+#title {
     font-family:Futura;
     font-weight:300;
     font-size:3em;
@@ -31,23 +31,26 @@
     letter-spacing:15px;
     text-align:center;
 }
-html{
+html {
     min-height:100%;
     border-width:20px;
     border-style:solid;
     border-color:#ffffff;
 }
+#nav {
+
+}
 /*end:layout*/
 
 /*begin:elements*/
-#paragraph{
+.paragraph {
     width:500px;
     max-width:100%;
     padding-top:50px;
     padding-bottom:50px;
     margin:auto;
 }
-#portrait{
+#portrait {
     width:200px;
     border-radius:50%;
     display:block;
@@ -55,5 +58,18 @@ html{
     border-width:7px;
     border-style:solid;
     border-color:#ffffff;
+}
+.button {
+    border-color:#ffffff;
+    border-width:1px;
+    border-style:solid;
+    height:40px;
+    width:200px;
+    display:block;
+    margin:auto;
+    margin-top:30px;
+    color:#ffffff;
+    font-family:Futura;
+    text-transform:uppercase;
 }
 /*end:elements*/
