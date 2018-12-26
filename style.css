@@ -26,8 +26,10 @@
     font-family:Futura;
     font-weight:300;
     font-size:2em;
+    letter-spacing:.7em;
     margin:60px;
     text-transform:uppercase;
+    text-align:center;
 }
 html {
     min-height:96%;
