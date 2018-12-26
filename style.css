@@ -25,11 +25,9 @@
 #title {
     font-family:Futura;
     font-weight:300;
-    font-size:3em;
+    font-size:2em;
     margin:60px;
     text-transform:uppercase;
-    letter-spacing:15px;
-    text-align:center;
 }
 html {
     min-height:96%;
@@ -67,7 +65,12 @@ html {
     margin-top:30px;
     color:#ffffff;
     font-family:Futura;
+    color:black;
     text-transform:uppercase;
+}
+.button p {
+    color:#777777;
+    letter-spacing:0.2em;
 }
 #social {
     display:block;
