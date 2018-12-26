@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="script.js"></script>
+	<link href="style.css" rel="stylesheet" type="text/css">
+	<!---description:ensures that scale is correct on mobile--->
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+	<!---description:links Lato online because I can't upload font to Tumblr--->
+	<link href='http://fonts.googleapis.com/css?family=Lato&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+</head>
+<body>
+	<div id="header">
+		<p class="big">Random Chord Progression Generator</p>
+	</div>
+	<div id="body">
+		<p id="paragraph" class="little">
+			This simple random number generator selects a number of major and minor chords to return a random chord progression.  No AI is used to return a particularily musically pleasing progression.  The generator cannot write music.  Because the progressions are completely random, it is only a tool to help the musician experiment with chords in an order that musical intelligence would not lead to.  Testing lots different progessions may return something musical with the help of a musician.  Experiment.
+		</p>
+		<div id="generator">
+			<p class="little">View chords in sharps</p>
+			<!---description:sharps switch--->
+			<label class="switch">
+				<!---description:sharp id is used in js to get the element and return if it is toggled--->
+				<input type="checkbox" class="round" id="sharp">
+				<div class="slider round"></div>
+			</label>
+			<p class="little">Number of chords/progression</p>
+			<!---description:number id is used in js to get the user's input--->
+			<input type="number" id="number" class="field" value="4">
+			<select id="select" class="field">
+				<option>Include:</option>
+				<option value="major_minor" id="major_minor">major and minor</option>
+				<option value="major" id="major">major only</option>
+				<option value="minor" id="minor">minor only</option>
+			</select>
+			<!---description:printFunction() causes a function's return to be put into html--->
+			<button class="button field" onclick="fuckOff(), generateChords('sharp', 'number', 'select', 'major_minor', 'major', 'minor')">
+				Generate
+			</button>
+			<!---description:print id is used in js to insert text--->
+			<p id="print" class="chords">G Dm Am C </p>
+			<!---description:playChord() causes a function's return to be put into html--->
+			<button class="button field" onclick="playChords()">
+				Play
+			</button>
+		</div>
+	</div>
+	<div id="footer">
+		<p class="big">
+			An experiment by <a href="http://dcolling.com" class="accent">David Colling: dcolling.com</a>
+		</p>
+	</div>
+</body>
+</html>
