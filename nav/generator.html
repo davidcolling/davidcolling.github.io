@@ -3,10 +3,7 @@
 <head>
     <script src="generator.js"></script>
     <link href="../style/style.css" rel="stylesheet" type="text/css">
-    <!---description:ensures that scale is correct on mobile--->
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
-    <!---description:links Lato online because I can't upload font to Tumblr--->
-    <link href='http://fonts.googleapis.com/css?family=Lato&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
 </head>
 <body>
     <div id="header">
@@ -18,14 +15,11 @@
         </p>
         <div id="generator">
             <p class="little">View chords in sharps</p>
-            <!---description:sharps switch--->
             <label class="switch">
-                <!---description:sharp id is used in js to get the element and return if it is toggled--->
                 <input type="checkbox" class="round" id="sharp">
                 <div class="slider round"></div>
             </label>
             <p class="little">Number of chords/progression</p>
-            <!---description:number id is used in js to get the user's input--->
             <input type="number" id="number" class="field" value="4">
             <select id="select" class="field">
                 <option>Include:</option>
@@ -33,16 +27,10 @@
                 <option value="major" id="major">major only</option>
                 <option value="minor" id="minor">minor only</option>
             </select>
-            <!---description:printFunction() causes a function's return to be put into html--->
             <button class="button field" onclick="printChords()">
                 Generate
             </button>
-            <!---description:print id is used in js to insert text--->
             <p id="print" class="chords">G Dm Am C </p>
-            <!---description:playChord() causes a function's return to be put into html--->
-            <!--- <button class="button field" onclick="playChords()">
-                Play
-            </button> --->
         </div>
     </div>
     <div id="footer">
