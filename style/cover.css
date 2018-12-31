@@ -1,25 +1,8 @@
-/*begin:fonts*/
 * {
     text-decoration:none;
     color:#bbbbbb;
     background-color:#dddddd;
 }
-.big {
-    font-family:Futura;
-    text-transform:uppercase;
-    font-size:15px;
-    letter-spacing:8px;
-    line-height:25px;
-    font-weight:100;
-}
-.little {
-    font-family:Futura;
-    text-transform:uppercase;
-    font-size:11px;
-    letter-spacing:2px;
-    font-weight:400;
-}
-/*end:fonts*/
 
 /*begin:layout*/
 #title {
@@ -40,13 +23,6 @@ html {
 /*end:layout*/
 
 /*begin:elements*/
-.paragraph {
-    width:500px;
-    max-width:100%;
-    padding-top:50px;
-    padding-bottom:50px;
-    margin:auto;
-}
 #portrait {
     width:200px;
     border-radius:50%;
