@@ -4,10 +4,6 @@
     background-color:#dddddd;
 }
 
-* div {
-    background-color:inherit;
-}
-
 /*begin:layout*/
 #spacer {
     height:50px;
