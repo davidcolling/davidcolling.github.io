@@ -13,7 +13,9 @@
     font-weight:300;
     font-size:1.5em;
     letter-spacing:.9em;
-    margin:60px;
+    display:block;
+    margin:auto;
+    padding:60px;
     text-transform:uppercase;
     text-align:center;
 }
