@@ -57,6 +57,9 @@ body{
 /*end:layout*/
 
 /*begin:elements*/
+    .spacer {
+        height:70px;
+    }
     #paragraph{
         width:500px;
         max-width:100%;

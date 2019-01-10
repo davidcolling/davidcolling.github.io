@@ -5,9 +5,6 @@
 }
 
 /*begin:layout*/
-#spacer {
-    height:50px;
-}
 #title {
     font-family:Futura;
     font-weight:300;
@@ -28,6 +25,9 @@ html {
 /*end:layout*/
 
 /*begin:elements*/
+.spacer {
+    height:50px;
+}
 #portrait {
     width:200px;
     border-radius:50%;
