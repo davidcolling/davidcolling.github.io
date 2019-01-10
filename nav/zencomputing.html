@@ -8,12 +8,22 @@
 
 <body>
     <div id="header">
-        <p class="big">Draw A Card</p>
+        <p class="big">Zen Computing</p>
     </div>
     <div class="post">
-        <h1></h1>
-        <h2></h2>
-        <p class="date"></p>
+        <h1>Interrupts vs Polling, Exceptions as a Model for Copmuting without Distraction</h1>
+        <p class="date">06/09/2018</p>
+        <p>Exceptions are instructions that interrupt the logical control flow. Processes use them to request services from the kernel. Operating systems use them to communicate with hardware and processes. Hardware uses them to indicate the status of a device.</p>
+        <p>There are two types of exceptions whose distinction is useful for using computers without distraction.</p>
+        <h2>Interrupts</h2>
+        <p>enable a device to signal when it needs attention.</p>
+        <h2>Polling</h2>
+        <p>repeatedly checks a device's status.</p>
+        <p>If a button is pressed on a keyboard, it will interrupt the currently executing instructions so that the input can be recorded. If the keyboard was unable to interrupt, the computer would have to poll, constantly check the keyboard for input. This would require a lot of extra instructions because the check for input has to be repeated. The system would run slower.</p>
+        <p>This is similar to how people use their phones. Users waste a lot of time if they have to check their phone to find out if there is a new message. Instead, they turn on notification sounds or vibrations to interrupt them when they receive a new message so that they can give their attention to their other tasks.</p>
+        <p>Many believe that getting notifications from your computers is a time-wasting distraction. This is likely because they receive notifications that weren't worth interrupting their other flows. In fact, creating notifications is more efficient than checking for new information because the attention is only shifted when there is something worth checking.</p>
+        <p>To make your work as efficient as an interrupt exception, turn off notifications that you don't need, experiment with new notifications that automatically show you information that you spend a lot of time looking for. Like a processor that just performs its given instructions, you can focus on your work without having to split your attention.</p>
+        <p>The explanation of technical subjects is based on Jim Skrenty's lectures at The University of Wisconsin.</p>
     </div>
     <div class="post">
         <h1>Happy Birthday, Deiter Rams</h1>
