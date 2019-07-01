@@ -1,8 +1,10 @@
+*{
+    text-decoration:none;
+    color:#000000;
+    background-color:#dddddd;
+}
+
 /*begin:fonts*/
-    *{
-        text-decoration:none;
-        color:#000000;
-    }
     .big{
         font-family:Futura;
         text-transform:uppercase;
@@ -41,7 +43,10 @@ body{
 }
 #header{
     padding:10px;
-    background-color:#dddddd;
+    background-color:#cccccc;
+}
+#header *{
+    background-color:inherit;
 }
 #body{
     padding:10px;
@@ -52,7 +57,10 @@ body{
     padding-left:10px;
     bottom:0;
     width:100%;
-    background:#dddddd;
+    background:#cccccc;
+}
+#footer *{
+    background-color:inherit;
 }
 /*end:layout*/
 
