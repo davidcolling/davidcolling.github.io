@@ -38,30 +38,30 @@
 /*end:fonts*/
 
 /*begin:layout*/
-body{
-    margin:0;
-}
-#header{
-    padding:10px;
-    background-color:#cccccc;
-}
-#header *{
-    background-color:inherit;
-}
-#body{
-    padding:10px;
-    padding-bottom:160px;
-}
-#footer{
-    position:fixed;
-    padding-left:10px;
-    bottom:0;
-    width:100%;
-    background:#cccccc;
-}
-#footer *{
-    background-color:inherit;
-}
+    body{
+        margin:0;
+    }
+    #header{
+        padding:10px;
+        background-color:#cccccc;
+    }
+    #header *{
+        background-color:inherit;
+    }
+    #body{
+        padding:10px;
+        padding-bottom:160px;
+    }
+    #footer{
+        position:fixed;
+        padding-left:10px;
+        bottom:0;
+        width:100%;
+        background:#cccccc;
+    }
+    #footer *{
+        background-color:inherit;
+    }
 /*end:layout*/
 
 /*begin:elements*/
