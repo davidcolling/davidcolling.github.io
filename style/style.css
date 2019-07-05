@@ -5,6 +5,9 @@
 }
 
 /*begin:fonts*/
+    .white{
+        color:#ffffff;
+    }
     .big{
         font-family:Futura;
         text-transform:uppercase;
@@ -47,6 +50,27 @@
     }
     #header *{
         background-color:inherit;
+    }
+    .banner{
+        overflow:hidden;
+        position:relative;
+        max-width:100%;
+        max-height:500px;
+    }
+    .banner img{
+        width:100%
+    }
+    .overlay{
+        position:absolute;
+        top:50%;
+        left:50%;
+        transform:translate(-50%, -50%);
+        width:75%;
+        text-align:center;
+        background:rgba(0, 0, 0, 0);
+    }
+    .overlay p{
+        background:rgba(0, 0, 0, 0);
     }
     #body{
         padding:10px;
