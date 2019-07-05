@@ -72,6 +72,15 @@
     .overlay p{
         background:rgba(0, 0, 0, 0);
     }
+    .grayscale {
+        filter:gray;
+        -webkit-filter:grayscale(100%);
+        transition-duration:3s;
+    }
+    .grayscale:hover {
+        filter:none;
+        -webkit-filter:grayscale(0%);
+    }
     #body{
         padding:10px;
         padding-bottom:160px;
