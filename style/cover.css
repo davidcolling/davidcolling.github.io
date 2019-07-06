@@ -38,23 +38,22 @@ html{
     border-color:#ffffff;
 }
 .button{
-    letter-spacing:.2em;
     border-color:#ffffff;
     border-width:1px;
     border-style:solid;
-    height:40px;
     width:200px;
     display:block;
+    padding:15px;
     margin:auto;
     margin-top:30px;
-    color:#ffffff;
     font-family:Futura;
-    color:black;
+    letter-spacing:.2em;
     text-transform:uppercase;
+    text-align:center;
+    vertical-align:middle;
 }
 #social{
     display:block;
-    margin:auto;
     margin-top:50px;
     text-align:center;
 }
