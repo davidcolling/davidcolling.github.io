@@ -1,11 +1,11 @@
-* {
+*{
     text-decoration:none;
     color:#888888;
     background-color:#dddddd;
 }
 
 /*begin:layout*/
-html {
+html{
     min-height:96%;
     border-width:20px;
     border-style:solid;
@@ -14,7 +14,7 @@ html {
 /*end:layout*/
 
 /*begin:elements*/
-#title {
+#title{
     font-family:Futura;
     font-weight:300;
     font-size:1.5em;
@@ -25,10 +25,10 @@ html {
     text-transform:uppercase;
     text-align:center;
 }
-.spacer {
+.spacer{
     height:50px;
 }
-#portrait {
+#portrait{
     width:200px;
     border-radius:50%;
     display:block;
@@ -37,7 +37,7 @@ html {
     border-style:solid;
     border-color:#ffffff;
 }
-.button {
+.button{
     border-color:#ffffff;
     border-width:1px;
     border-style:solid;
@@ -51,20 +51,20 @@ html {
     color:black;
     text-transform:uppercase;
 }
-a .button {
+a .button{
     border-color:#ffffff;
 }
-.button p {
+.button p{
     color:#777777;
     letter-spacing:0.2em;
 }
-#social {
+#social{
     display:block;
     margin:auto;
     margin-top:50px;
     text-align:center;
 }
-#social img {
+#social img{
     width:40px;
     margin:20px;
 }
