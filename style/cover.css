@@ -38,6 +38,7 @@ html{
     border-color:#ffffff;
 }
 .button{
+    letter-spacing:.2em;
     border-color:#ffffff;
     border-width:1px;
     border-style:solid;
@@ -50,13 +51,6 @@ html{
     font-family:Futura;
     color:black;
     text-transform:uppercase;
-}
-a .button{
-    border-color:#ffffff;
-}
-.button p{
-    color:#777777;
-    letter-spacing:0.2em;
 }
 #social{
     display:block;
