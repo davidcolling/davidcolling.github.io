@@ -5,6 +5,15 @@
 }
 
 /*begin:layout*/
+html {
+    min-height:96%;
+    border-width:20px;
+    border-style:solid;
+    border-color:#ffffff;
+}
+/*end:layout*/
+
+/*begin:elements*/
 #title {
     font-family:Futura;
     font-weight:300;
@@ -16,15 +25,6 @@
     text-transform:uppercase;
     text-align:center;
 }
-html {
-    min-height:96%;
-    border-width:20px;
-    border-style:solid;
-    border-color:#ffffff;
-}
-/*end:layout*/
-
-/*begin:elements*/
 .spacer {
     height:50px;
 }
