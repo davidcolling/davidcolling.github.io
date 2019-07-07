@@ -4,7 +4,6 @@
     background-color:#dddddd;
     font-family:Futura;
 }
-
 /*begin:fonts*/
     #title{
         font-size:1.5em;
@@ -108,7 +107,7 @@
         border-color:#ffffff;
     }
     .description{
-        max:width:500px;
+        max-width:500px;
         max-width:100%;
         padding:10px;
         padding-top:50px;
@@ -193,7 +192,6 @@
         letter-spacing:.2em;
         text-transform:uppercase;
         text-align:center;
-        vertical-align:middle;
         background-color:inherit;
     }
     #social{
