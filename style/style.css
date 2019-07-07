@@ -50,12 +50,17 @@
         border-style:solid;
         border-color:#ffffff;
     }
-    #header{
+    .bar{
         padding:10px;
         background-color:#cccccc;
     }
-    #header *{
+    .bar *{
         background-color:inherit;
+    }
+    .footer{
+        position:fixed;
+        bottom:0;
+        width:100%;
     }
     .banner{
         overflow:hidden;
@@ -93,16 +98,6 @@
     }
     .spacer{
         height:50px;
-    }
-    #footer{
-        position:fixed;
-        padding-left:10px;
-        bottom:0;
-        width:100%;
-        background:#cccccc;
-    }
-    #footer *{
-        background-color:inherit;
     }
 /*end:layout*/
 
