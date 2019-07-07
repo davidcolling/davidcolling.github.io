@@ -6,6 +6,15 @@
 }
 
 /*begin:fonts*/
+    #title{
+        font-size:1.5em;
+        letter-spacing:.9em;
+        display:block;
+        margin:auto;
+        padding:60px;
+        text-transform:uppercase;
+        text-align:center;
+    }
     .white{
         color:#ffffff;
     }
@@ -34,6 +43,12 @@
 /*begin:layout*/
     body{
         margin:0;
+    }
+    .framed{
+        min-height:96%;
+        border-width:20px;
+        border-style:solid;
+        border-color:#ffffff;
     }
     #header{
         padding:10px;
@@ -76,6 +91,9 @@
         padding:10px;
         padding-bottom:160px;
     }
+    .spacer{
+        height:50px;
+    }
     #footer{
         position:fixed;
         padding-left:10px;
@@ -89,8 +107,14 @@
 /*end:layout*/
 
 /*begin:elements*/
-    .spacer{
-        height:70px;
+    #portrait{
+        width:200px;
+        border-radius:50%;
+        display:block;
+        margin:auto;
+        border-width:7px;
+        border-style:solid;
+        border-color:#ffffff;
     }
     #paragraph{
         width:500px;
@@ -107,19 +131,6 @@
         display:inherit;
         margin:inherit;
         margin-top:10px;
-    }
-    .button{
-        /*description:border*/
-        border-color:#cccccc;
-        border-width:1px;
-        border-style:solid;
-        /*description:color*/
-        background-color:#ffffff;
-        display:inherit;
-        /*description:position*/
-        margin:inherit;
-        margin-top:20px;
-        margin-bottom:20px;
     }
     .deck{
         height:375px;
@@ -178,8 +189,32 @@
         line-height:2em;
         letter-spacing:.07em;
     }
+    .button{
+        border-color:#888888;
+        border-width:3px;
+        border-style:solid;
+        width:200px;
+        display:block;
+        padding:15px;
+        margin:auto;
+        margin-top:30px;
+        letter-spacing:.2em;
+        text-transform:uppercase;
+        text-align:center;
+        vertical-align:middle;
+        background-color:inherit;
+    }
+    #social{
+        display:block;
+        margin-top:50px;
+        text-align:center;
+    }
+    #social img{
+        width:40px;
+        margin:20px;
+    }
 /*end:elements*/
-
+    
 /*begin:slider*/
     .switch{
       position:relative;
