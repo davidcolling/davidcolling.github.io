@@ -81,7 +81,7 @@
         background:rgba(0, 0, 0, 0);
     }
     .overlay p{
-        background:rgba(0, 0, 0, 0);
+        background:inherit;
     }
     .grayscale{
         filter:gray;
@@ -91,10 +91,6 @@
     .grayscale:hover{
         filter:none;
         -webkit-filter:grayscale(0%);
-    }
-    #body{
-        padding:10px;
-        padding-bottom:160px;
     }
     .spacer{
         height:50px;
@@ -111,9 +107,10 @@
         border-style:solid;
         border-color:#ffffff;
     }
-    #paragraph{
-        width:500px;
+    .description{
+        max:width:500px;
         max-width:100%;
+        padding:10px;
         padding-top:50px;
         padding-bottom:50px;
         margin:auto;
@@ -162,18 +159,18 @@
         }
     }
     .post h1{
-        font-weight:300;
         font-size:1.5em;
         text-align:center;
         text-transform:uppercase;
         letter-spacing:.5em;
         line-height:50px;
+        font-weight:300;
     }
     .post h2{
-        font-weight:300;
         font-size:1em;
         text-transform:uppercase;
         letter-spacing:.5em;
+        font-weight:300;
     }
     .post .date{
         text-align:center;
