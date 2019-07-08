@@ -8,7 +8,7 @@
 *{
     text-decoration:none;
     color:var(--black);
-    background-color:;
+    background-color:var(--background-color);
     font-family:Futura;
 }
 /*begin:fonts*/
