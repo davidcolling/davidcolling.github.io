@@ -210,6 +210,11 @@
         width:40px;
         margin:20px;
     }
+    .symbol{
+        display:block;
+        margin:auto;
+        width:50px;
+    }
 /*end:elements*/
     
 /*begin:slider*/
