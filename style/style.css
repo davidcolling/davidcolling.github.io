@@ -51,7 +51,7 @@
         margin:0;
     }
     .framed{
-        min-height:96%;
+        min-height:95%;
         border-width:20px;
         border-style:solid;
         border-color:var(--white);
