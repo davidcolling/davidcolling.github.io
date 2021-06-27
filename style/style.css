@@ -35,10 +35,6 @@
         font-size:11px;
         letter-spacing:2px;
     }
-    .chords{
-        font-size:15px;
-        word-spacing:8px;
-    }
     .field{
         font-size:10px;
         text-transform:uppercase;
@@ -122,29 +118,6 @@
         padding-bottom:50px;
         margin:auto;
     }
-    #generator{
-        text-align:center;
-        margin:auto;
-    }
-    #select{
-        display:inherit;
-        margin:inherit;
-        margin-top:10px;
-    }
-    .deck{
-        height:375px;
-        width:250px;
-        border:1px;
-        border-style:solid;
-        margin:auto;
-        margin-top:30px;
-    }
-    .deck p{
-        text-align:center;
-        margin-top:20px;
-        padding-left:5%;
-        padding-right:5%;
-    }
     .post{
         display:block;
         margin:auto;
@@ -203,6 +176,9 @@
         background-color:inherit;
         font-size:.8em;
     }
+    #nav{
+        padding-bottom:30px;
+    }
     #social{
         display:block;
         margin-top:20px;
@@ -220,55 +196,4 @@
         margin-bottom:30px;
     }
 /*end:elements*/
-    
-/*begin:slider*/
-    .switch{
-      position:relative;
-      display:inline-block;
-      width:30px;
-      height:17px;
-    }
-    .switch input{
-        display:none;
-    }
-    .slider{
-      position:absolute;
-      cursor:pointer;
-      top:0;
-      left:0;
-      right:0;
-      bottom:0;
-      background-color:#eeeeee;
-      -webkit-transition:.4s;
-      transition:.4s;
-    }
-    .slider:before{
-      position:absolute;
-      content:"";
-      height:13px;
-      width:13px;
-      left:2px;
-      bottom:2px;
-      background-color:white;
-      -webkit-transition:.4s;
-      transition:.4s;
-    }
-    input:checked + .slider{
-      background-color:#cccccc;
-    }
-    input:focus + .slider{
-      box-shadow:0 0 1px #cccccc;
-    }
-    input:checked + .slider:before{
-      -webkit-transform:translateX(13px);
-      -ms-transform:translateX(13px);
-      transform:translateX(13px);
-    }
-    /* Rounded sliders */
-    .slider.round{
-      border-radius:17px;
-    }
-    .slider.round:before{
-      border-radius:50%;
-    }
-/*end:slider*/
+
