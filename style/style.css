@@ -84,6 +84,7 @@
         left:50%;
         transform:translate(-50%, -50%);
         width:75%;
+        max-height:100%;
         text-align:center;
         background:rgba(0, 0, 0, 0);
     }
