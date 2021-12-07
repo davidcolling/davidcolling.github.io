@@ -90,22 +90,22 @@ var output = function (input) {
             var dx = x1 - x2;
             var dy = y1 - y2;
 
-            var directionToPrey;
+            var directionTo2;
 
             if (dx != 0 && dy != 0) {
                 if (dx < 0 && dy > 0) { // target is in quadrant 1
-                    directionToPrey = Math.atan2(Math.abs(dx), Math.abs(dy)) * (180 / Math.PI);
+                    directionTo2 = Math.atan2(Math.abs(dx), Math.abs(dy)) * (180 / Math.PI);
                 } else if (dx < 0 && dy < 0) { // target is in q2
-                    directionToPrey = Math.atan2(Math.abs(dy), Math.abs(dx)) * (180 / Math.PI);
-                    directionToPrey += 90;
+                    directionTo2 = Math.atan2(Math.abs(dy), Math.abs(dx)) * (180 / Math.PI);
+                    directionTo2 += 90;
                 } else if (dx > 0 && dy < 0) { // q3
-                    directionToPrey = Math.atan2(Math.abs(dx), Math.abs(dy)) * (180 / Math.PI);
-                    directionToPrey += 180;
+                    directionTo2 = Math.atan2(Math.abs(dx), Math.abs(dy)) * (180 / Math.PI);
+                    directionTo2 += 180;
                 } else if (dx > 0 && dy > 0) { // q4
-                    directionToPrey = Math.atan2(Math.abs(dy), Math.abs(dx)) * (180 / Math.PI);
-                    directionToPrey += 270;
+                    directionTo2 = Math.atan2(Math.abs(dy), Math.abs(dx)) * (180 / Math.PI);
+                    directionTo2 += 270;
                 }
-                this.direction = directionToPrey;
+                this.direction = directionTo2;
             }
         }
         drawBullets = function () {
@@ -220,9 +220,12 @@ var output = function (input) {
         frameCount++;
         animatePirates();
 
+        drawAll(ships);
+
         for (var i = 1; i < ships.length; i++) {
             if (checkCollisions(ships[0], ships[i].bullets)) {
-                alert("You lose");
+                document.getElementById("result").textContent = "You Lose.";
+                noLoop();
             }
         }
 
@@ -231,8 +234,6 @@ var output = function (input) {
                 ships.pop(i);
             }
         }
-
-        drawAll(ships);
     };
 };
 
