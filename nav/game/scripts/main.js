@@ -124,21 +124,25 @@ var output = function (input) {
             this.direction = direction;
             this.map = map;
         }
-        move = function (velocity) {
+        move = function (velocity, offset) {
             var dx;
             var dy;
-            if (this.direction >= 0 && this.direction < 90) {
-                dx = this.direction;
-                dy = -1 * (90 - this.direction);
-            } else if (this.direction >= 90 && this.direction < 180) {
-                dx = 180 - this.direction;
-                dy = this.direction - 90;
-            } else if (this.direction >= 180 && this.direction < 270) {
-                dx = -1 * (this.direction - 180);
-                dy = 270 - this.direction;
-            } else if (this.direction >= 270 && this.direction < 360) {
-                dx = this.direction - 360;
-                dy = -1 * (this.direction - 270);
+            var offsetDirection = this.direction + offset;
+            if (offsetDirection > 359) {
+                offsetDirection -= 360;
+            }
+            if (offsetDirection >= 0 && offsetDirection < 90) {
+                dx = offsetDirection;
+                dy = -1 * (90 - offsetDirection);
+            } else if (offsetDirection >= 90 && offsetDirection < 180) {
+                dx = 180 - offsetDirection;
+                dy = offsetDirection - 90;
+            } else if (offsetDirection >= 180 && offsetDirection < 270) {
+                dx = -1 * (offsetDirection - 180);
+                dy = 270 - offsetDirection;
+            } else if (offsetDirection >= 270 && offsetDirection < 360) {
+                dx = offsetDirection - 360;
+                dy = -1 * (offsetDirection - 270);
             }
             var newX = this.x + (velocity * (dx / 90));
             var newY = this.y + (velocity * (dy / 90));
@@ -203,7 +207,7 @@ var output = function (input) {
         drawBullets = function () {
             for (var i = 0; i < this.bullets.length; i++) {
                 if (this.bullets[i].age < 30) {
-                    this.bullets[i].move(15);
+                    this.bullets[i].move(15, 0);
                     this.bullets[i].draw();
                 } else {
                     this.bullets.pop(i)
@@ -235,6 +239,8 @@ var output = function (input) {
             super(size, x, y, map);
             this.idleAge = 0;
             this.idleLife = Math.random() * 200;
+            this.lastSeenPlayerX = null;
+            this.lastSeenPlayerY = null;
        }
         draw = function () {
             input.fill(256, 0, 0, 256);
@@ -245,13 +251,23 @@ var output = function (input) {
             );
         }
         idle = function () {
-            if (!(this.idleAge < this.idleLife)) {
-                this.ideAge = 0;
-                this.idleLife = Math.random() * 2000;
-                this.direction = Math.random() * 360;
+            if (this.lastSeenPlayerX != null) {
+                if (5 < calculateDistance(this.x, this.y, this.lastSeenPlayerX, this.lastSeenPlayerY)) {
+                    this.point(this.x, this.y, this.lastSeenPlayerX, this.lastSeenPlayerY);
+                    this.move(1, 0);
+                } else {
+                    this.lastSeenPlayerX = null;
+                    this.lastSeenPlayerY = null;
+                }
+            } else {
+                if (!(this.idleAge < this.idleLife)) {
+                    this.ideAge = 0;
+                    this.idleLife = Math.random() * 2000;
+                    this.direction = Math.random() * 360;
+                }
+                this.idleAge++;
+                this.move(1, 0);
             }
-            this.idleAge++;
-            this.move(1);
         }
     };
 
@@ -281,11 +297,20 @@ var output = function (input) {
     document.addEventListener('keydown', recordKey);
     function recordKey(e) {
         switch (e.key) {
-            case "w":
-                ships[0].move(2);
-                break;
             case "r":
                 ships[0].fire();
+                break;
+            case "w":
+                ships[0].move(2, 0);
+                break;
+            case "d":
+                ships[0].move(2, 90);
+                break;
+            case "s":
+                ships[0].move(2, 180);
+                break;
+            case "a":
+                ships[0].move(2, 270);
                 break;
         }
     }
@@ -328,12 +353,14 @@ var output = function (input) {
                         400 > calculateDistance(ships[0].x, ships[0].y, ships[i].x, ships[i].y) &&
                         map.isOpen(ships[0].x, ships[0].y, ships[i].x, ships[i].y)
                     ) {
+                        ships[i].lastSeenPlayerX = ships[0].x;
+                        ships[i].lastSeenPlayerY = ships[0].y;
                         ships[i].point(ships[i].x, ships[i].y, ships[0].x, ships[0].y);
                         ships[i].drawBullets();
                         if (frameCount % 16 == i - 1) {
                             ships[i].fire();
                        }
-                        ships[i].move(0.5);
+                        ships[i].move(0.5, 0);
                     } else {
                         ships[i].idle();
                     }
