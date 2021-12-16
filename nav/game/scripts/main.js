@@ -3,6 +3,7 @@ var output = function (input) {
     var width = window.innerWidth;
     var ships;
     var map;
+    var castle;
 
     class Shape {
         constructor(size, x, y) {
@@ -30,6 +31,88 @@ var output = function (input) {
             );
         }
     };
+
+    class Castle {
+        // coord of center 
+        constructor(x, y, size) {
+            this.x = x;
+            this.y = y;
+            this.walls = new Array();
+            this.walls.push( new Wall( //1
+                x - (size / 2),
+                y - (size / 2),
+                x - (size / 8),
+                y - (size / 2)
+            ));
+            this.walls.push( new Wall( //2
+                x + (size / 8),
+                y - (size / 2),
+                x + (size / 2),
+                y - (size / 2)
+            ));
+            this.walls.push( new Wall( //3
+                x + (size / 2),
+                y - (size / 2),
+                x + (size / 2),
+                y - (size / 8)
+            ));
+            this.walls.push( new Wall( //4
+                x + (size / 2),
+                y + (size / 8),
+                x + (size / 2),
+                y + (size / 2)
+            ));
+            this.walls.push( new Wall( //5
+                x + (size / 2),
+                y + (size / 2),
+                x + (size / 8),
+                y + (size / 2)
+            ));
+            this.walls.push( new Wall( //6
+                x - (size / 8),
+                y + (size / 2),
+                x - (size / 2),
+                y + (size / 2)
+            ));
+            this.walls.push( new Wall( //7
+                x - (size / 2),
+                y + (size / 2),
+                x - (size / 2),
+                y + (size / 8)
+            ));
+            this.walls.push( new Wall( //8
+                x - (size / 2),
+                y - (size / 8),
+                x - (size / 2),
+                y - (size / 2)
+            ));
+
+            this.walls.push( new Wall( //9
+                x - (size / 8),
+                y - (size / 4),
+                x + (size / 8),
+                y - (size / 4)
+            ));
+            this.walls.push( new Wall( //10
+                x + (size / 4),
+                y - (size / 8),
+                x + (size / 4),
+                y + (size / 8)
+            ));
+            this.walls.push( new Wall( //11
+                x - (size / 8),
+                y + (size / 4),
+                x + (size / 8),
+                y + (size / 4)
+            ));
+            this.walls.push( new Wall( //12
+                x - (size / 4),
+                y - (size / 8),
+                x - (size / 4),
+                y + (size / 8)
+            ));
+        }
+    }
 
     class Map {
         constructor() {
@@ -329,13 +412,23 @@ var output = function (input) {
                 ));
             }
         } else {
-            for (var i = 0; i < 15; i ++) {
+            for (var i = 0; i < 5; i ++) {
                 map.addWall( new Wall(
                     Math.random() * width, 
                     Math.random() * height, 
                     Math.random() * width, 
                     Math.random() * height
                 ));
+            }
+            for (var i = 0; i < 15; i ++) {
+                var castle = new Castle(
+                    Math.random() * (0.7 * width),
+                    Math.random() * (0.7 * height),
+                    Math.random() * 500
+                );
+                for (var j = 0; j < castle.walls.length; j++) {
+                    map.addWall(castle.walls[j]);
+                }
             }
         }
 
