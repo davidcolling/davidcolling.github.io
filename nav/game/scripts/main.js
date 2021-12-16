@@ -1,5 +1,5 @@
 var output = function (input) {
-    var height = window.innerHeight;
+    var height = window.innerHeight * 0.9;
     var width = window.innerWidth;
     var ships;
     var map;
@@ -331,10 +331,10 @@ var output = function (input) {
         } else {
             for (var i = 0; i < 15; i ++) {
                 map.addWall( new Wall(
-                    50 + (Math.random() * (height * 0.8)), 
-                    50 + (Math.random() * (width * 0.8)), 
-                    Math.random() * (width * 0.8),
-                    Math.random() * (height * 0.8)
+                    Math.random() * width, 
+                    Math.random() * height, 
+                    Math.random() * width, 
+                    Math.random() * height
                 ));
             }
         }
@@ -352,7 +352,7 @@ var output = function (input) {
         frameCount++;
         drawAll(map.walls);
 
-		for (var i = 0; i < ships.length; i++) {
+        for (var i = 0; i < ships.length; i++) {
             if ( i == 0 ) {
                 ships[i].drawBullets()
                 ships[i].point(ships[i].x, ships[i].y, input.mouseX, input.mouseY);
