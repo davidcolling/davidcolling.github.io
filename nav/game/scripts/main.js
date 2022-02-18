@@ -1,17 +1,18 @@
 var output = function (input) {
-    var height = window.innerHeight * 0.9;
-    var width = window.innerWidth;
-    var ships;
-    var map;
-    var castle;
-
-    class Shape {
+    class CenteredShape {
         constructor(size, x, y) {
             this.size = size;
             this.x = x;
             this.y = y;
         }
         draw = function (){};
+    }
+
+    class Coord {
+        constructor(x, y) {
+            this.x = x;
+            this.y = y;
+        }
     }
 
     class Wall {
@@ -32,12 +33,24 @@ var output = function (input) {
         }
     };
 
-    class Castle {
+    // assumes multiple walls
+    class Structure {
+        constructor() {
+            this.walls = new Array();
+        }
+        draw = function() {
+            for (var i = 0; i < this.walls.length; i++) {
+                this.walls[i].draw();
+            }
+        }
+    }
+
+    class Castle extends Structure {
         // coord of center 
         constructor(x, y, size) {
+            super();
             this.x = x;
             this.y = y;
-            this.walls = new Array();
             this.walls.push( new Wall( //1
                 x - (size / 2),
                 y - (size / 2),
@@ -114,48 +127,18 @@ var output = function (input) {
         }
     }
 
-    class Map {
-        constructor() {
-            this.walls = new Array();
-            this.blockedCoords = new Array();
+    class Map extends Structure {
+        constructor(width, height) {
+            super();
+            this.width = width;
+            this.height = height;
+            this.walls.push(new Wall(0, 0, width, 0));
+            this.walls.push(new Wall(width, 0, width, height));
+            this.walls.push(new Wall(0, height, width, height));
+            this.walls.push(new Wall(0, height, 0, 0));
         }
         addWall = function(wall) {
             this.walls.push(wall);
-
-            // assumes no diagonals for now
-            var isVertical = false;
-            if (wall.x1 == wall.x2) {
-                isVertical = true;
-            }
-
-            if (isVertical) {
-                if (wall.y1 < wall.y2) {
-                    var startingCoord = wall.y1;
-                    var endingCoord= wall.y2;
-                } else {
-                    var startingCoord = wall.y2;
-                    var endingCoord= wall.y1;
-                }
-            } else {
-                if (wall.x1 < wall.x2) {
-                    var startingCoord = wall.x1;
-                    var endingCoord= wall.x2;
-                } else {
-                    var startingCoord = wall.x2;
-                    var endingCoord= wall.x1;
-                }
-            }
-
-            for (var i = startingCoord; i < endingCoord; i++) {
-                var coord = new Array(2);
-                coord[0] = [i]
-                if (isVertical) {
-                    coord[1] = wall.x1;
-                } else {
-                    coord[1] = wall.y1;
-                }
-                this.blockedCoords.push(coord);
-            }
         }
         // returns true if there is no wall between points 1 and 2
         isOpen = function(x1, y1, x2, y2) {
@@ -187,21 +170,122 @@ var output = function (input) {
         }
     };
 
-    class Dot extends Shape {
-        constructor(x, y) {
-            super(2, x, y);
+    class World {
+        constructor(width, height) {
+            this.frameCount = 0;
+            this.map = new Map(width, height);
+            this.bullets = new Array();
+
+            // put stuff on the map
+            if (Math.random() < 0.3) {
+                for (var i = 0; i < 60; i ++) {
+                    this.map.addWall( new Wall(
+                        i * (this.map.width / 60),
+                        50 + (Math.random() * (this.map.height * 0.8)), 
+                        i * (this.map.width / 60),
+                        Math.random() * (this.map.height * 0.8)
+                    ));
+                }
+            } else {
+                for (var i = 0; i < 2; i ++) {
+                    this.map.addWall( new Wall(
+                        Math.random() * this.map.width, 
+                        Math.random() * this.map.height, 
+                        Math.random() * this.map.width, 
+                        Math.random() * this.map.height
+                    ));
+                }
+                for (var i = 0; i < 15; i ++) {
+                    var castle = new Castle(
+                        Math.random() * (0.7 * this.map.width),
+                        Math.random() * (0.7 * this.map.height),
+                        Math.random() * 500
+                    );
+                    for (var j = 0; j < castle.walls.length; j++) {
+                        this.map.addWall(castle.walls[j]);
+                    }
+                }
+            }
+
+            // make characters
+            this.enemies = new Array();
+            this.player = new Player(5, this.map.width - 20, this.map.height - 50, this.map);
+            for (var i = 0; i < 5; i++ ) {
+                this.enemies.push(new Pirate(5, this.map.width * Math.random(), (this.map.height / 2) * Math.random(), this.map));
+                this.enemies.push(new Bomb(this.map.width * Math.random(), (this.map.height / 2) * Math.random(), this.map));
+            }
         }
+
         draw = function () {
-            input.fill(0, 0, 0, 256);
-            input.circle(
-                this.x, 
-                this.y, 
-                this.size,
-            );
-        }
+            this.frameCount++;
+            this.player.draw();
+            this.map.draw();
+        
+            // draw bullets
+            for (var i = 0; i < this.bullets.length; i++) {
+                if (this.bullets[i] != null) {
+                    if (this.bullets[i].age < 30) {
+                        this.bullets[i].move(15, 0);
+                        this.bullets[i].draw();
+                    } else {
+                        this.bullets[i] = null;
+                    }
+                }
+            }
+
+            // get player's bullets
+            for (var i = 0; i < this.player.bullets.length; i++) {
+                this.bullets.push(this.player.bullets[i]);
+            }
+            this.player.bullets = new Array();
+
+            if (checkIsShot(this.player, this.bullets)) {
+                document.getElementById("result").textContent = "You Lose.";
+                input.noLoop();
+            }
+        
+            for (var i = 0; i < this.enemies.length; i++) {
+                if (this.enemies[i] != null) {
+                    this.enemies[i].draw();
+
+                    // calculate npc behavior
+                    var seesPlayer = (
+                        400 > calculateDistance(this.player.x, this.player.y, this.enemies[i].x, this.enemies[i].y) && 
+                        this.map.isOpen(this.player.x, this.player.y, this.enemies[i].x, this.enemies[i].y) 
+                    );
+                    if ( this.enemies[i].isHunting || seesPlayer) {
+                        if (seesPlayer) {
+                            this.enemies[i].lastSeenPlayerCoord = new Coord(this.player.x, this.player.y);
+                        }
+                        this.enemies[i].attack(seesPlayer);
+                    } else {
+                        this.enemies[i].idle();
+                    }
+
+                    // get enemy's bullets
+                    for (var j = 0; j < this.enemies[i].bullets.length; j++) {
+                        this.bullets.push(this.enemies[i].bullets[j]);
+                    }
+                    this.enemies[i].bullets = new Array();
+
+                    //check for shots
+                    if (checkIsShot(this.enemies[i], this.bullets)) {
+                        this.enemies[i] = null;
+                    }
+    
+                    if (this.enemies[i] != null) {
+                        if (this.enemies[i].didExplode) {
+                            this.enemies[i] = null;
+                        }
+                    }
+                }
+            }
+
+        };
+
     }
 
-    class Moveable extends Shape {
+    class Moveable extends CenteredShape {
         constructor(size, x, y, direction, map) {
             super(size, x, y);
             this.direction = direction;
@@ -230,12 +314,11 @@ var output = function (input) {
             var newX = this.x + (velocity * (dx / 90));
             var newY = this.y + (velocity * (dy / 90));
             if (
-                10 < newX && 
-                newX < (width - 10) && 
-                10 < newY && 
-                newY< (height - 10) &&
-
-                this.map.isOpen(this.x, this.y, newX, newY)
+                this.map.isOpen(this.x, this.y, newX, newY) &&
+                0 < newX &&                                                 // idk why but without the additional bounds checks the player sometimes disappears when moving in direction between 359-360 degrees
+                newX < this.map.width &&
+                0 < newY &&
+                newY < this.map.height
             ) {
                 this.x = newX;
                 this.y = newY;
@@ -259,51 +342,26 @@ var output = function (input) {
         }
     }
 
-    class Steerable extends Moveable {
+    class Character extends Moveable {
         constructor(size, x, y, map) {
             super(size, x, y, 0, map);
-            this.bullets = new Array(1);
-            this.bullets[0] = new Bullet(x, y, 0, map);
+            this.bullets = new Array();
         }
         point = function (x1, y1, x2, y2) {
-            var dx = x1 - x2;
-            var dy = y1 - y2;
-
-            var directionTo2;
-
-            if (dx != 0 && dy != 0) {
-                if (dx < 0 && dy > 0) { // target is in quadrant 1
-                    directionTo2 = Math.atan2(Math.abs(dx), Math.abs(dy)) * (180 / Math.PI);
-                } else if (dx < 0 && dy < 0) { // target is in q2
-                    directionTo2 = Math.atan2(Math.abs(dy), Math.abs(dx)) * (180 / Math.PI);
-                    directionTo2 += 90;
-                } else if (dx > 0 && dy < 0) { // q3
-                    directionTo2 = Math.atan2(Math.abs(dx), Math.abs(dy)) * (180 / Math.PI);
-                    directionTo2 += 180;
-                } else if (dx > 0 && dy > 0) { // q4
-                    directionTo2 = Math.atan2(Math.abs(dy), Math.abs(dx)) * (180 / Math.PI);
-                    directionTo2 += 270;
-                }
-                this.direction = directionTo2;
-            }
+            this.direction = calculateDirection(x1, y1, x2, y2);
         }
-        drawBullets = function () {
-            for (var i = 0; i < this.bullets.length; i++) {
-                if (this.bullets[i].age < 30) {
-                    this.bullets[i].move(15, 0);
-                    this.bullets[i].draw();
-                } else {
-                    this.bullets.pop(i)
-                }
+        fire = function(direction) {
+            if (direction == null) {
+                var bulletDirection = this.direction;
+            } else {
+                var bulletDirection = direction;
             }
-        }
-        fire = function() {
-            var bullet = new Bullet(this.x, this.y, this.direction, this.map);
+            var bullet = new Bullet(this.x, this.y, bulletDirection, this.map);
             this.bullets.push(bullet);
         }
     }
 
-    class Ship extends Steerable {
+    class Player extends Character {
         constructor(size, x, y, map) {
             super(size, x, y, map);
         }
@@ -317,16 +375,19 @@ var output = function (input) {
         }
     }
 
-    class Pirate extends Steerable {
-        constructor(size, x, y, map) {
+    class NPC extends Character {
+       constructor(size, x, y, map, life, idleAge, idleLife) {
             super(size, x, y, map);
-            this.idleAge = 0;
-            this.idleLife = Math.random() * 200;
-            this.lastSeenPlayerX = null;
-            this.lastSeenPlayerY = null;
-       }
+            this.didExplode = false;
+            this.isHunting = false;
+            this.age = 0;
+            this.life = life;
+            this.idleAge = idleAge;
+            this.idleLife = idleLife;
+            this.lastSeenPlayerCoord = null;
+        }
         draw = function () {
-            input.fill(256, 0, 0, 256);
+            input.fill(0, 0, 0, 256);
             input.circle(
                 this.x, 
                 this.y, 
@@ -334,29 +395,151 @@ var output = function (input) {
             );
         }
         idle = function () {
-            if (this.lastSeenPlayerX != null) {
-                if (5 < calculateDistance(this.x, this.y, this.lastSeenPlayerX, this.lastSeenPlayerY)) {
-                    this.point(this.x, this.y, this.lastSeenPlayerX, this.lastSeenPlayerY);
-                    this.move(1, 0);
+            if (!(this.idleAge < this.idleLife)) {
+                this.idleAge = 0;
+                this.idleLife = Math.random() * 2000;
+                this.direction = Math.random() * 360;
+            }
+            this.idleAge++;
+            this.move(1, 0);
+        }
+        attack = function () {}
+   }
+
+    class Bomb extends NPC {
+        constructor(x, y, map) {
+            super(5, x, y, map, 1000, 0, 200);
+            this.didIgnite = false;
+            this.igniteAge = 0
+            this.isGrowing = true;
+            this.shockWave = null;
+        }
+        draw = function () {
+            if (this.shockWave != null) {
+                this.shockWave.draw();
+            }
+            if (this.didIgnite) {
+                this.igniteAge++;
+                if (this.igniteAge > 500) {
+                    this.didExplode = true;
+                    this.explode();
+                }
+            }
+            input.fill(0, 256, 0, 256);
+            input.circle(
+                this.x, 
+                this.y, 
+                this.size
+            );
+        }
+        explode = function () {
+            this.fire(this.direction);
+
+            this.fire(this.direction + 1);
+            this.fire(this.direction - 1);
+
+            this.fire(this.direction + 3);
+            this.fire(this.direction - 3);
+
+            this.fire(this.direction + 10);
+            this.fire(this.direction - 10);
+
+            this.fire(this.direction + 20);
+            this.fire(this.direction - 20);
+
+            this.fire(this.direction + 30);
+            this.fire(this.direction - 30);
+        }
+        pulse = function () {
+            if (this.isGrowing) {
+                if (this.size < 9) {
+                    this.size += 1;
                 } else {
-                    this.lastSeenPlayerX = null;
-                    this.lastSeenPlayerY = null;
+                    this.isGrowing = false;
+                    this.size -= 1;
                 }
             } else {
-                if (!(this.idleAge < this.idleLife)) {
-                    this.ideAge = 0;
-                    this.idleLife = Math.random() * 2000;
-                    this.direction = Math.random() * 360;
+                if (this.size > 5) {
+                    this.size -= 1;
+                } else {
+                    this.isGrowing = true;
+                    this.size += 1;
                 }
-                this.idleAge++;
-                this.move(1, 0);
+            }
+        }
+        attack = function (seesPlayer) {
+            var distance = calculateDistance(this.x, this.y, this.lastSeenPlayerCoord.x, this.lastSeenPlayerCoord.y);
+            if (seesPlayer) {
+                if ( distance < 300 ) {
+                    this.pulse();
+                    if ( distance < 200 ) {
+                        this.didIgnite = true;
+                    }
+                }
+            }
+
+            this.point(this.x, this.y, this.lastSeenPlayerCoord.x, this.lastSeenPlayerCoord.y);
+            this.move(0.5, 0);
+            if (!this.isHunting) {
+                this.isHunting = true;
+            } else {
+                if (distance < 2 && !this.didIgnite) {
+                    this.isHunting = false;
+                }
             }
         }
     };
 
-    var drawAll = function (shapes) {
-        for (var i = 0; i < shapes.length; i++) {
-            shapes[i].draw();
+    class ShockWave extends CenteredShape {
+        constructor(size, x, y) {
+            super(size, x, y);
+            this.age = 0;
+        }
+        incAge = function() {
+            if (this.age < this.size) {
+                this.age += 1;
+            }
+        }
+        draw = function () {
+            this.incAge();
+            input.noFill(256, 0, 0, 256);
+            input.circle(
+                this.x, 
+                this.y, 
+                this.age
+            );
+        }
+    }
+
+    class Pirate extends NPC {
+        constructor(size, x, y, map) {
+            super(size, x, y, map, 1000, 0, 200);
+            this.weaponCooldownCounter = 0
+        }
+        draw = function () {
+            this.weaponCooldownCounter++;
+            input.fill(256, 0, 0, 256);
+            input.circle(
+                this.x, 
+                this.y, 
+                this.size
+            );
+        }
+        attack = function (seesPlayer) {
+            this.point(this.x, this.y, this.lastSeenPlayerCoord.x, this.lastSeenPlayerCoord.y);
+            this.move(0.5, 0);
+            if (seesPlayer) {
+                if (this.weaponCooldownCounter % 16 == 0) {
+                    this.fire(null);
+                }
+            }
+            if (this.isHunting) {
+                if (1 < calculateDistance(this.x, this.y, this.lastSeenPlayerCoord.x, this.lastSeenPlayerCoord.y)) {
+                    this.isHunting = false;
+                }
+            } else {
+                this.isHunting = true;
+            }
         }
     };
 
@@ -364,14 +547,55 @@ var output = function (input) {
         return Math.sqrt( Math.abs(x2 - x1)**2 + Math.abs(y2 - y1)**2 ) 
     };
 
-    var didCollide = function(obj1, obj2) {
-        return ( 5 > calculateDistance(obj1.x, obj1.y, obj2.x, obj2.y) );
+    // obj2 is the projectile
+    var isShot= function(obj1, obj2) {
+        return ( 5 > calculateDistance(obj1.x, obj1.y, obj2.x, obj2.y) &&
+                isInFrontOf(obj1, obj2) );
     };
 
-    var checkCollisions = function(obj, arr) {
+    var calculateDirection = function (x1, y1, x2, y2) {
+        var dx = x1 - x2;
+        var dy = y1 - y2;
+
+        var direction;
+
+        if (dx != 0 && dy != 0) {
+            if (dx < 0 && dy > 0) { // target is in quadrant 1
+                direction = Math.atan2(Math.abs(dx), Math.abs(dy)) * (180 / Math.PI);
+            } else if (dx < 0 && dy < 0) { // target is in q2
+                direction = Math.atan2(Math.abs(dy), Math.abs(dx)) * (180 / Math.PI);
+                direction += 90;
+            } else if (dx > 0 && dy < 0) { // q3
+                direction = Math.atan2(Math.abs(dx), Math.abs(dy)) * (180 / Math.PI);
+                direction += 180;
+            } else if (dx > 0 && dy > 0) { // q4
+                direction = Math.atan2(Math.abs(dy), Math.abs(dx)) * (180 / Math.PI);
+                direction += 270;
+            }
+            return direction
+        }
+    }
+
+    var isInFrontOf = function(obj1, obj2) {
+        return 90 >= Math.abs(calculateDifference(obj1.direction, calculateDirection(obj1.x, obj1.y, obj2.x, obj2.y)));
+    }
+
+    var calculateDifference = function(direction1, direction2) {
+        difference = direction1 - direction2;
+
+        if (difference > 180) {
+            difference = 360 - difference;
+        }
+
+        return difference
+    }
+
+    var checkIsShot = function(obj, arr) {
         for (var i = 0; i < arr.length; i++) {
-            if (didCollide(obj, arr[i])) {
-                return true
+            if (arr[i] != null) {
+                if (isShot(obj, arr[i])) {
+                    return true
+                }
             }
         }
         return false;
@@ -381,108 +605,39 @@ var output = function (input) {
     function recordKey(e) {
         switch (e.key) {
             case "r":
-                ships[0].fire();
+                world.player.fire(null);
                 break;
             case "w":
-                ships[0].move(2, 0);
+                world.player.move(2, 0);
                 break;
             case "d":
-                ships[0].move(2, 90);
+                world.player.move(2, 90);
                 break;
             case "s":
-                ships[0].move(2, 180);
+                world.player.move(2, 180);
                 break;
             case "a":
-                ships[0].move(2, 270);
+                world.player.move(2, 270);
                 break;
         }
     }
 
+    var world;
     input.setup = function () {
+        var height = window.innerHeight * 0.9;
+        var width = window.innerWidth * 0.9;
+
         input.createCanvas(width, height);
 
-        map = new Map();
-        if (Math.random() < 0.3) {
-            for (var i = 0; i < 60; i ++) {
-                map.addWall( new Wall(
-                    i * (width / 60),
-                    50 + (Math.random() * (height * 0.8)), 
-                    i * (width / 60),
-                    Math.random() * (height * 0.8)
-                ));
-            }
-        } else {
-            for (var i = 0; i < 5; i ++) {
-                map.addWall( new Wall(
-                    Math.random() * width, 
-                    Math.random() * height, 
-                    Math.random() * width, 
-                    Math.random() * height
-                ));
-            }
-            for (var i = 0; i < 15; i ++) {
-                var castle = new Castle(
-                    Math.random() * (0.7 * width),
-                    Math.random() * (0.7 * height),
-                    Math.random() * 500
-                );
-                for (var j = 0; j < castle.walls.length; j++) {
-                    map.addWall(castle.walls[j]);
-                }
-            }
-        }
-
-        ships = Array(1);
-        ships[0] = new Ship(5, width - 20, height - 50, map);
-        for (var i = 0; i < 10; i++ ) {
-            ships.push(new Pirate(5, width * Math.random(), (height / 2) * Math.random(), map));
-        }
+        world = new World(width, height);
     };
 
-    var frameCount = 0;
     input.draw = function () {
         input.clear();
-        frameCount++;
-        drawAll(map.walls);
 
-        for (var i = 0; i < ships.length; i++) {
-            if ( i == 0 ) {
-                ships[i].drawBullets()
-                ships[i].point(ships[i].x, ships[i].y, input.mouseX, input.mouseY);
-                ships[i].draw();
-            } else {
-                if (ships[i] != null) {
-                    ships[i].draw();
-                    if (
-                        400 > calculateDistance(ships[0].x, ships[0].y, ships[i].x, ships[i].y) &&
-                        map.isOpen(ships[0].x, ships[0].y, ships[i].x, ships[i].y)
-                    ) {
-                        ships[i].lastSeenPlayerX = ships[0].x;
-                        ships[i].lastSeenPlayerY = ships[0].y;
-                        ships[i].point(ships[i].x, ships[i].y, ships[0].x, ships[0].y);
-                        ships[i].drawBullets();
-                        if (frameCount % 16 == i - 1) {
-                            ships[i].fire();
-                       }
-                        ships[i].move(0.5, 0);
-                    } else {
-                        ships[i].idle();
-                    }
-        
-                    if (checkCollisions(ships[0], ships[i].bullets)) {
-                        document.getElementById("result").textContent = "You Lose.";
-                        input.noLoop();
-                    }
-        
-                    if (checkCollisions(ships[i], ships[0].bullets)) {
-                        ships[i] = null;
-                    }
-                }
-            }
-         }
- 
-    };
-
+        world.player.point(world.player.x, world.player.y, input.mouseX, input.mouseY);
+        world.draw();
+    }
 };
 
 var display = new p5(output, "canvas");
