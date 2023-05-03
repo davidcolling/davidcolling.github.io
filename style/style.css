@@ -167,6 +167,11 @@
         line-height:2em;
         letter-spacing:.07em;
     }
+    .post img {
+        width: 100%;
+        display: block;
+        margin: auto;
+    }
     .button{
         border-color:var(--black);
         border-width:3px;
@@ -181,6 +186,9 @@
         text-align:center;
         background-color:inherit;
         font-size:.8em;
+    }
+    .code {
+        font-family: Courier;
     }
     #nav{
         padding-bottom:30px;
